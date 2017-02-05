@@ -196,7 +196,7 @@ function StaffGradedAssignmentXBlock(runtime, element) {
                 var max_score = row.parents('#grade-info').data('max_score');
                 var score = Number(form.find('#grade-input').val());
                 event.preventDefault();
-                if (isNaN(score)) {
+                if (!score) {
                     form.find('.error').html('<br/>Grade must be a number.');
                 } else if (score !== parseInt(score)) {
                     form.find('.error').html('<br/>Grade must be an integer.');
@@ -210,11 +210,19 @@ function StaffGradedAssignmentXBlock(runtime, element) {
                         .success(renderStaffGrading);
                 }
             });
-            form.find('#remove-grade').on('click', function() {
+            form.find('#remove-grade').on('click', function(event) {
+                var score = Number(form.find('#grade-input').val());
+                var row = $(this).parents("tr");
                 var url = removeGradeUrl + '?module_id=' +
                     row.data('module_id') + '&student_id=' +
                     row.data('student_id');
-                $.get(url).success(renderStaffGrading);
+                event.preventDefault();
+                if (!score && !row.data('score')) {
+                    // there is no score entered for this assingment, so we can remove anything
+                    form.find('.error').html('<br/>This assignment is not graded yet.');
+                } else {
+                    $.get(url).success(renderStaffGrading);
+                }
             });
             form.find('#enter-grade-cancel').on('click', function() {
                 /* We're kind of stretching the limits of leanModal, here,
