@@ -37,6 +37,10 @@ matrix:
       script: tox -e django111
       env:
         name: Python 27 and Django 1.11 Unit Tests
+
+    - python: 3.5
+      env:
+      - TOXENV=py35
     - install:
       - pip install tox
       script: tox -e py35-django18
