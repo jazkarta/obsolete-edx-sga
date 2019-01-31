@@ -1,7 +1,4 @@
 language: python
-python:
-  - "2.7"
-  - "3.5"
 matrix:
   include:
     - install:
@@ -34,9 +31,19 @@ matrix:
       - pip install tox
       script: tox -e django18
       env:
-        name: Django 1.8 Unit Tests
+        name: Python 27 and Django 1.8 Unit Tests
     - install:
       - pip install tox
       script: tox -e django111
       env:
-        name: Django 1.11 Unit Tests
+        name: Python 27 and Django 1.11 Unit Tests
+    - install:
+      - pip install tox
+      script: tox -e py35-django18
+      env:
+        name: Python 35 and Django 1.11 Unit Tests
+    - install:
+      - pip install tox
+      script: tox -e py35-django111
+      env:
+        name: Python 35 and Django 1.11 Unit Tests
